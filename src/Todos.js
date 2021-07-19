@@ -1,12 +1,14 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
-const Todos = ({todos, deleteTodo}) => {
+const Todos = (props) => {
 
-  const todoList = todos.length ? (
-    todos.map(todo => {
+  const todoList = props.todos.length ? (
+    props.todos.map(todo => {
+      console.log(props.deleteTodo)
       return (
         <div className="collection-item" key={todo.id}>
-          <span onClick={() => deleteTodo(todo.id)}>{todo.content}</span>
+          <span onClick={() => props.deleteTodo(todo.id)}>{todo.content}</span>
         </div>
       )
     })
@@ -20,4 +22,10 @@ const Todos = ({todos, deleteTodo}) => {
   )
 }
 
-export default Todos
+const mapDispatchToProps = (dispatch) => {
+  return {
+      deleteTodo: (id) => { dispatch({type: 'DELETE_TODO', id: id})}
+  }
+}
+
+export default connect(undefined, mapDispatchToProps)(Todos)
